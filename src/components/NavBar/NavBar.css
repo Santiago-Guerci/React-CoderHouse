@@ -1,0 +1,17 @@
+.imgHeader {
+    width: 17rem;
+}
+
+.cartIcon {
+    width: 3rem;
+}
+
+.navLink {
+    font-style: italic;
+    font-size: x-large;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
