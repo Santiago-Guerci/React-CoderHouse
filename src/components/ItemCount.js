@@ -20,11 +20,12 @@ const ItemCount = ({stock, initial, onAdd}) => {
         <div>
             <h3>Mi producto</h3>
             <div className='d-flex justify-content-center'>
-                <button onClick={restar}>-</button>
+                {/* En el onClick uso las arrowFunction para ejecutar una función de callback */}
+                <button onClick={()=> restar()}>-</button>
                 <h4>{counter}</h4>
-                <button onClick={sumar}>+</button>
+                <button onClick={()=> sumar()}>+</button>
             </div>
-            <button onClick={onAdd}>Agregar al carrito</button> 
+            <button onClick={()=> onAdd(counter)}>Agregar al carrito</button> 
         </div>
     );
 }

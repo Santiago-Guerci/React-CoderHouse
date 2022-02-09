@@ -2,7 +2,7 @@ import ItemCount from "./ItemCount";
 
 const ItemListContainer = ({greeting}) => {
 
-    const onAdd = ({counter}) => {
+    const onAdd = (counter) => {
         console.log(`Tu compra es de ${counter} productos.`);
     }
 
