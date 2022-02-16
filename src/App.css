@@ -2,3 +2,9 @@
   text-align: center;
   background-color: antiquewhite;
 }
+
+.itemsContainer {
+  display: flex;
+  background-color: cadetblue;
+  margin: 3rem auto;
+}

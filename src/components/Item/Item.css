@@ -1,0 +1,6 @@
+.itemCard {
+    display: flex;
+    width: 18rem;
+    margin: 10px auto;
+    background-color: aquamarine;
+}
