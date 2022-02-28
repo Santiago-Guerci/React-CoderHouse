@@ -17,7 +17,7 @@ const ItemDetail = ({img, name, detail, price, stock}) => {
                 <h5 className="card-title">{name}</h5>
                 <p className="card-text">{detail}</p>
                 <p className="card-text">Precio de lista: ${price}</p>
-                {cantidad === 0 ? <ItemCount stock={stock} initial={1} onAdd={handleAdd}/> : <Link to={'/cart'}>Ir al carrito </Link>}
+                {cantidad === 0 ? <ItemCount stock={stock} initial={1} onAdd={handleAdd}/> : <Link to={'/cart'}>Ir al carrito con {cantidad} items </Link>}
 
                 {/* <ItemCount stock={stock} initial={1} onAdd={handleAdd}/> */}
             </div>
