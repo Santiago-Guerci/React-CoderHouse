@@ -18,7 +18,6 @@ const ItemCount = ({stock, initial, onAdd}) => {
 
     return (
         <div>
-            <h3>Mi producto</h3>
             <div className='d-flex justify-content-center'>
                 {/* En el onClick uso las arrowFunction para ejecutar una función de callback */}
                 <button onClick={()=> restar()}>-</button>

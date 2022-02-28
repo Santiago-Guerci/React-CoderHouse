@@ -10,7 +10,7 @@ const ItemListContainer = ({greeting}) => {
 
     useEffect(() => {
         getProducts(categoryId).then(productos => {
-            console.log(productos)
+            // console.log(productos)
             setProducts(productos)
         })
     }, [categoryId]) //lo que está dentro del corchete es lo que el useEffect está "mirando" a ver si cambia para volver a ejecutarse
