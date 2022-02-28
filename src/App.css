@@ -5,6 +5,7 @@
 
 .itemsContainer {
   display: flex;
+  flex-wrap: wrap;
   background-color: cadetblue;
   margin: 3rem auto;
 }

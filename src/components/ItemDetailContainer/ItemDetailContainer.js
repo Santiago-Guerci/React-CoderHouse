@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getProduct } from "../../asyncmock";
-import ItemDetail from "./ItemDetail";
+import ItemDetail from "../ItemDetail/ItemDetail";
 import { useParams } from 'react-router-dom';
 
 const ItemDetailContainer = () => {
@@ -9,13 +9,14 @@ const ItemDetailContainer = () => {
 
     useEffect(() => {
         getProduct(productId).then(producto => {
-            console.log(producto)
+            // console.log(producto)
             setProduct(producto)
         })
     }, {})
 
     return (
-        <ItemDetail objeto={product}/>
+        //Puedo pasar <ItemDetail objeto={product} /> y en ItemDetail poner de prop ({objeto}) y poner objeto.name, objeto.price, etc
+        <ItemDetail {...product}/>
     )
 }
 

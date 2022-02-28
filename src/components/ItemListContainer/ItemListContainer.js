@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-// import ItemCount from "./ItemCount";
-import ItemList from "./ItemList";
-import { getProducts } from '../asyncmock';
+import ItemList from '../ItemList/ItemList';
+import { getProducts } from '../../asyncmock';
 import { useParams } from 'react-router-dom';
 
 
@@ -14,16 +13,11 @@ const ItemListContainer = ({greeting}) => {
             console.log(productos)
             setProducts(productos)
         })
-    }, [categoryId])
-
-    // const onAdd = (counter) => {
-    //     console.log(`Tu compra es de ${counter} productos.`);
-    // }
+    }, [categoryId]) //lo que está dentro del corchete es lo que el useEffect está "mirando" a ver si cambia para volver a ejecutarse
 
     return (
         <>
             <h1 className='titulo'>{greeting}</h1>
-            {/* <ItemCount stock={10} initial={1} onAdd={onAdd}/> */}
             <ItemList items={products}/>
         </>
     )
