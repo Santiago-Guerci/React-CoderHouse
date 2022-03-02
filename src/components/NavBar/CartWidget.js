@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 const CartWidget = () => {
     return (
         <div className="cartDiv">
-            <a href="#Home">
+            <Link to={'/cart'}>
                 <img src="https://cdn-icons-png.flaticon.com/512/869/869104.png" alt="cartIcon" className="cartIcon"/>
-            </a>
+            </Link>
         </div>
     )    
 }

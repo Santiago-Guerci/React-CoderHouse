@@ -12,7 +12,7 @@ const ItemDetailContainer = () => {
             // console.log(producto)
             setProduct(producto)
         })
-    }, {})
+    }, [{}])
 
     return (
         //Puedo pasar <ItemDetail objeto={product} /> y en ItemDetail poner de prop ({objeto}) y poner objeto.name, objeto.price, etc
