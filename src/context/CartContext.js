@@ -17,8 +17,8 @@ export const CartContextProvider = ({children}) => {
         }
     }
 
-    const removeItem = (id) => {
-        const filteredCart = cart.filter(p => p.id !== id);
+    const removeItem = (value) => {
+        const filteredCart = cart.filter(p => p.id !== value);
         setCart(filteredCart);
     }
 
@@ -30,12 +30,19 @@ export const CartContextProvider = ({children}) => {
         return cart.some(p => p.id === id);
     }
 
+    //Voy item por item aplicando que si el id es igual, le sumo cantidad
     const sumarCantidad = (id, cantidad) => {
         cart.map((producto) => producto.id === id && (producto.cantidad += cantidad));
     }
 
+    const getCantidad = () => {
+        let sumaTotal = 0;
+        cart.forEach(p => {sumaTotal += p.cantidad});
+        return sumaTotal;
+    }
+
     return(
-        <CartContext.Provider value={{cart, addItem, removeItem, clear}}> {children} </CartContext.Provider>
+        <CartContext.Provider value={{cart, addItem, removeItem, clear, getCantidad}}> {children} </CartContext.Provider>
     )
 }
 

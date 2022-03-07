@@ -1,0 +1,12 @@
+.cartProdImg {
+    width: 9rem;
+}
+
+.cartProd {
+    margin: 0 auto;
+    max-width: 55rem;
+}
+
+.cartTitle {
+    margin: 15px auto;
+}
