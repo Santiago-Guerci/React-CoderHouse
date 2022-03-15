@@ -1,4 +1,6 @@
 import { createContext, useState } from "react";
+import { doc, updateDoc, getDocs, collection } from 'firebase/firestore'
+import { firestoreDb } from "../services/firebase/firebase";
 
 const CartContext = createContext()
 
@@ -30,6 +32,12 @@ export const CartContextProvider = ({children}) => {
         return cart.some(p => p.id === id);
     }
 
+    const getTotal = () => {
+        let valorTotal = 0;
+        cart.forEach(p => {valorTotal += p.price * p.cantidad});
+        return valorTotal;
+    }
+
     //Voy item por item aplicando que si el id es igual, le sumo cantidad
     const sumarCantidad = (id, cantidad) => {
         cart.map((producto) => producto.id === id && (producto.cantidad += cantidad));
@@ -41,8 +49,17 @@ export const CartContextProvider = ({children}) => {
         return sumaTotal;
     }
 
+    const reponerStock = () => {
+        getDocs(collection(firestoreDb, 'productos')).then(res => {
+            res.forEach(prod => {
+                updateDoc(doc(firestoreDb, 'productos', prod.id), {stock: 20})
+            })
+            console.log(`Se repuso el stock por fines educativos`)
+        })
+    }
+
     return(
-        <CartContext.Provider value={{cart, addItem, removeItem, clear, getCantidad}}> {children} </CartContext.Provider>
+        <CartContext.Provider value={{cart, addItem, removeItem, clear, getCantidad, getTotal, reponerStock}}> {children} </CartContext.Provider>
     )
 }
 

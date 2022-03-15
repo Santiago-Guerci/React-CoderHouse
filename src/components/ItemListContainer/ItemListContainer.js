@@ -16,12 +16,9 @@ const ItemListContainer = ({greeting}) => {
             collection(firestoreDb, 'productos');
 
         getDocs(collectionRef).then(querySnapshot => {
-            console.log(querySnapshot);
             const productos = querySnapshot.docs.map(doc => {
-                console.log(doc);
                 return { id: doc.id, ...doc.data()}
             })
-            console.log(productos);
             setProducts(productos);
         })
 
