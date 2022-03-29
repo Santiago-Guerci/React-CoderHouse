@@ -8,15 +8,9 @@ export const CartContextProvider = ({children}) => {
     const [cart, setCart] = useState([])
 
     const addItem = (producto, cantidad) => {
-        //newObj es para poder poner la cantidad como una propiedad de mi objeto a vender (img, name, cantidad)
-        const prodQty = {...producto, cantidad}
-
-        if(isInCart(producto.id)){
-            console.log('Agregar cantidad')
-            sumarCantidad(producto.id, cantidad);
-        } else {
-            setCart([...cart, prodQty]);
-        }
+        //prodToAdd es para poder poner la cantidad como una propiedad de mi objeto a vender (img, name, cantidad)
+        const prodToAdd = {...producto, cantidad}
+        isInCart(producto.id) ? updateItemInCart(prodToAdd) : addItemToCart(prodToAdd);
     }
 
     const removeItem = (value) => {
@@ -39,9 +33,9 @@ export const CartContextProvider = ({children}) => {
     }
 
     //Voy item por item aplicando que si el id es igual, le sumo cantidad
-    const sumarCantidad = (id, cantidad) => {
-        cart.map((producto) => producto.id === id && (producto.cantidad += cantidad));
-    }
+    // const sumarCantidad = (id, cantidad) => {
+    //     cart.map((producto) => producto.id === id && (producto.cantidad += cantidad));
+    // }
 
     const getCantidad = () => {
         let sumaTotal = 0;
@@ -56,6 +50,22 @@ export const CartContextProvider = ({children}) => {
             })
             console.log(`Se repuso el stock por fines educativos`)
         })
+    }
+
+    const updateItemInCart = (prodToAdd) => {
+        const updatedCart = cart.map(product => {
+            if(product.id === prodToAdd.id) {
+                const updatedProduct = {...product, cantidad: product.cantidad + prodToAdd.cantidad}
+                return updatedProduct;
+            } else {
+                return product;
+            }
+        })
+        setCart(updatedCart);
+    }
+
+    const addItemToCart = (prodToAdd) => {
+        setCart([...cart, prodToAdd]);
     }
 
     return(
