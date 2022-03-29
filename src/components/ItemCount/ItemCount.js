@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+
 const ItemCount = ({stock, initial, onAdd}) => {
 
     const [counter, setCounter] = useState(initial);
@@ -16,7 +17,7 @@ const ItemCount = ({stock, initial, onAdd}) => {
         }
     }
 
-    return (
+    return(
         <div>
             <div className='d-flex justify-content-center'>
                 {/* En el onClick uso las arrowFunction para ejecutar una función de callback */}
@@ -26,7 +27,7 @@ const ItemCount = ({stock, initial, onAdd}) => {
             </div>
             <button className='btn btn-success' onClick={()=> onAdd(counter)}>Agregar al carrito</button>
         </div>
-    );
+    )   
 }
 
 export default ItemCount;

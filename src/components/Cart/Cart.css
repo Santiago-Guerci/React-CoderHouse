@@ -10,3 +10,9 @@
 .cartTitle {
     margin: 15px auto;
 }
+
+.formDiv {
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 55rem;
+}

@@ -76,6 +76,48 @@ const Cart = () => {
                         ))}
                     </ul>
 
+                    <div className="formDiv d-flex justify-content-between">
+                    <form className="row g-3">
+                        <div className="col-md-6">
+                            <label for="inputEmail" className="form-label">Email</label>
+                            <input type="email" className="form-control" id="inputEmail"/>
+                        </div>
+                        <div className="col-md-6">
+                            <label for="inputPassword" className="form-label">Contraseña</label>
+                            <input type="password" className="form-control" id="inputPassword"/>
+                        </div>
+                        <div className="col-12">
+                            <label for="inputAddress" className="form-label">Calle</label>
+                            <input type="text" className="form-control" id="inputAddress" placeholder="Calle Falsa"/>
+                        </div>
+                        <div className="col-12">
+                            <label for="inputAddress" className="form-label">Numeración</label>
+                            <input type="text" className="form-control" id="inputAddress" placeholder="123"/>
+                        </div>
+                        <div className="col-md-6">
+                            <label for="inputCity" className="form-label">Ciudad</label>
+                            <input type="text" className="form-control" id="inputCity"/>
+                        </div>
+                        <div className="col-md-4">
+                            <label for="inputBarrio" className="form-label">Barrio</label>
+                            <select id="inputBarrio" className="form-select">
+                                <option selected>Mi barrio...</option>
+                                <option>Balvanera</option>
+                                <option>Flores</option>
+                                <option>Caballito</option>
+                                <option>Villa Santa Rita</option>
+                            </select>
+                        </div>
+                        <div className="col-md-2">
+                            <label for="inputZip" className="form-label">Código Postal</label>
+                            <input type="number" className="form-control" id="inputZip"/>
+                        </div>
+                        <div className="col-12">
+                            <button type="submit" className="btn btn-primary">Confirmar Compra</button>
+                        </div>
+                    </form>
+                    </div>
+
                     <button onClick={() => confirmOrder()} className="btn btn-primary btn-lg m-2"> Confirmar Orden </button>
                     <button onClick={clear} className='btn btn-danger btn-lg m-2'>Limpiar carrito</button>
                     <button onClick={reponerStock} className='btn btn-primary btn-lg m-2'>Reponer stock</button>

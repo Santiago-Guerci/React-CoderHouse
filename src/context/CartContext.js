@@ -12,7 +12,7 @@ export const CartContextProvider = ({children}) => {
         const prodQty = {...producto, cantidad}
 
         if(isInCart(producto.id)){
-            console.log('hay que sumar cantidad')
+            console.log('Agregar cantidad')
             sumarCantidad(producto.id, cantidad);
         } else {
             setCart([...cart, prodQty]);
