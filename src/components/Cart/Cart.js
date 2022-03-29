@@ -1,4 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Form from "../Form/Form";
+import OrderDetail from "../OrderDetail/OrderDetail";
 import { Link } from "react-router-dom";
 import CartContext from "../../context/CartContext";
 import './Cart.css'
@@ -8,49 +10,58 @@ import { firestoreDb } from "../../services/firebase/firebase";
 const Cart = () => {
     const {cart, removeItem, clear, getCantidad, getTotal, reponerStock} = useContext(CartContext);
 
+    const [contact, setContact] = useState({
+        name: '',
+        surname: '',
+        email: '',
+        phone: ''
+    });
+
+    const [show, setShow] = useState(false);
+
+    const changeShow = () => {
+        setShow(!show);
+    }
+
     const confirmOrder = () => {
+            
+            const objOrder = {
+                buyer: contact,
+                items: cart,
+                total: getTotal(),
+                date: Timestamp.fromDate(new Date())
+            }
 
-        const batch = writeBatch(firestoreDb)
-        const outOfStock = []
-
-        const objOrder = {
-            buyer: {
-                name: 'Santiago',
-                phone: '1130373577',
-                email: 'santiago.38@hotmail.com'
-            },
-            items: cart,
-            total: getTotal(),
-            date: Timestamp.fromDate(new Date())
-        }
-    
-        objOrder.items.forEach(prod => {
-            getDoc(doc(firestoreDb, 'productos', prod.id)).then(res => {
-                if(res.data().stock >= prod.cantidad) {
-                    batch.update(doc(firestoreDb, 'productos', res.id), {
-                        stock: res.data().stock - prod.cantidad
-                    })
-                } else {
-                    outOfStock.push({ id: res.id, ...res.data() })
-                }
-            })
-        })
-
-        if(outOfStock.length === 0) {
-            addDoc(collection(firestoreDb, 'orders'), objOrder).then( ({id}) => {
-                batch.commit().then(() => {
-                    clear()
-                    console.log(`La orden fue generada. ID de compra: ${id}`)
+            const batch = writeBatch(firestoreDb)
+            const outOfStock = []
+        
+            objOrder.items.forEach(prod => {
+                getDoc(doc(firestoreDb, 'productos', prod.id)).then(res => {
+                    if(res.data().stock >= prod.cantidad) {
+                        batch.update(doc(firestoreDb, 'productos', res.id), {
+                            stock: res.data().stock - prod.cantidad
+                        })
+                    } else {
+                        outOfStock.push({ id: res.id, ...res.data() })
+                    }
                 })
-            }).catch(err => {
-                console.log(`Hubo un error al procesar su pedido`)
             })
-        } else {
-            outOfStock.forEach(prod => {
-                console.log(`El producto ${prod.name} no tiene stock disponible`)
-                removeItem(prod.id)
-            })
-        }
+
+            if(outOfStock.length === 0) {
+                addDoc(collection(firestoreDb, 'orders'), objOrder).then( ({id}) => {
+                    batch.commit().then(() => {
+                        clear()
+                        console.log(`La orden fue generada. ID de compra: ${id}`)
+                    })
+                }).catch(err => {
+                    console.log(`Hubo un error al procesar su pedido`)
+                })
+            } else {
+                outOfStock.forEach(prod => {
+                    console.log(`El producto ${prod.name} no tiene stock disponible`)
+                    removeItem(prod.id)
+                })
+            }
 
     }
 
@@ -75,57 +86,22 @@ const Cart = () => {
                             </li>
                         ))}
                     </ul>
+                    
+                    {show ? <OrderDetail contact={contact}/> : <Form setContact={setContact} changeShow={changeShow}/>}
+                    {/* <Form setContact={setContact}/> */}
 
-                    <div className="formDiv d-flex justify-content-between">
-                    <form className="row g-3">
-                        <div className="col-md-6">
-                            <label for="inputEmail" className="form-label">Email</label>
-                            <input type="email" className="form-control" id="inputEmail"/>
-                        </div>
-                        <div className="col-md-6">
-                            <label for="inputPassword" className="form-label">Contraseña</label>
-                            <input type="password" className="form-control" id="inputPassword"/>
-                        </div>
-                        <div className="col-12">
-                            <label for="inputAddress" className="form-label">Calle</label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder="Calle Falsa"/>
-                        </div>
-                        <div className="col-12">
-                            <label for="inputAddress" className="form-label">Numeración</label>
-                            <input type="text" className="form-control" id="inputAddress" placeholder="123"/>
-                        </div>
-                        <div className="col-md-6">
-                            <label for="inputCity" className="form-label">Ciudad</label>
-                            <input type="text" className="form-control" id="inputCity"/>
-                        </div>
-                        <div className="col-md-4">
-                            <label for="inputBarrio" className="form-label">Barrio</label>
-                            <select id="inputBarrio" className="form-select">
-                                <option selected>Mi barrio...</option>
-                                <option>Balvanera</option>
-                                <option>Flores</option>
-                                <option>Caballito</option>
-                                <option>Villa Santa Rita</option>
-                            </select>
-                        </div>
-                        <div className="col-md-2">
-                            <label for="inputZip" className="form-label">Código Postal</label>
-                            <input type="number" className="form-control" id="inputZip"/>
-                        </div>
-                        <div className="col-12">
-                            <button type="submit" className="btn btn-primary">Confirmar Compra</button>
-                        </div>
-                    </form>
-                    </div>
-
+                    <h3>Total: ${getTotal()}</h3>
+                    <button onClick={() => changeShow()} className="btn btn-primary btn-lg m-2">Cambiar Show</button>
                     <button onClick={() => confirmOrder()} className="btn btn-primary btn-lg m-2"> Confirmar Orden </button>
                     <button onClick={clear} className='btn btn-danger btn-lg m-2'>Limpiar carrito</button>
                     <button onClick={reponerStock} className='btn btn-primary btn-lg m-2'>Reponer stock</button>
+
                 </div>
             }
-
+            
         </div>
     )
 }
+
 
 export default Cart;
