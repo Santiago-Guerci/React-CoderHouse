@@ -26,53 +26,51 @@ const Cart = () => {
 
     const confirmOrder = () => {
             
-            const objOrder = {
-                buyer: contact,
-                items: cart,
-                total: getTotal(),
-                date: Timestamp.fromDate(new Date())
-            }
+        const objOrder = {
+            buyer: contact,
+            items: cart,
+            total: getTotal(),
+            date: Timestamp.fromDate(new Date())
+        }
 
-            const batch = writeBatch(firestoreDb)
-            const outOfStock = []
-        
-            objOrder.items.forEach(prod => {
-                getDoc(doc(firestoreDb, 'productos', prod.id)).then(res => {
-                    if(res.data().stock >= prod.cantidad) {
-                        batch.update(doc(firestoreDb, 'productos', res.id), {
-                            stock: res.data().stock - prod.cantidad
-                        })
-                    } else {
-                        outOfStock.push({ id: res.id, ...res.data() })
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                }).then(() => {
-                    executeOrder();
+        const batch = writeBatch(firestoreDb)
+        const outOfStock = []
+
+        const executeOrder = () => {
+            if(outOfStock.length === 0) {
+                addDoc(collection(firestoreDb, 'orders'), objOrder).then( ({id}) => {
+                    batch.commit().then(() => {
+                        setSuccess(true);
+                        clear()
+                        console.log(`La orden fue generada. ID de compra: ${id}`)
+                    })
+                }).catch(err => {
+                    console.log(`Hubo un error al procesar su pedido`)
                 })
-            })
-
-            const executeOrder = () => {
-                if(outOfStock.length === 0) {
-                    addDoc(collection(firestoreDb, 'orders'), objOrder).then( ({id}) => {
-                        batch.commit().then(() => {
-                            setSuccess(true);
-                            clear()
-                            console.log(`La orden fue generada. ID de compra: ${id}`)
-                        })
-                    }).catch(err => {
-                        console.log(`Hubo un error al procesar su pedido`)
+            } else {
+                console.log(`El producto ${outOfStock[0].name} no tiene stock suficiente.`);
+                outOfStock.forEach(prod => {
+                    console.log(`El producto ${prod.name} no tiene stock disponible`)
+                    removeItem(prod.id)
+                })
+            }
+        }
+    
+        objOrder.items.forEach(prod => {
+            getDoc(doc(firestoreDb, 'productos', prod.id)).then(res => {
+                if(res.data().stock >= prod.cantidad) {
+                    batch.update(doc(firestoreDb, 'productos', res.id), {
+                        stock: res.data().stock - prod.cantidad
                     })
                 } else {
-                    console.log(`El producto ${outOfStock[0].name} no tiene stock suficiente.`);
-                    outOfStock.forEach(prod => {
-                        console.log(`El producto ${prod.name} no tiene stock disponible`)
-                        removeItem(prod.id)
-                    })
+                    outOfStock.push({ id: res.id, ...res.data() })
                 }
-            }
-            
-
+            }).catch((err) => {
+                console.log(err);
+            }).then(() => {
+                executeOrder();
+            })
+        })
     }
 
     return(
