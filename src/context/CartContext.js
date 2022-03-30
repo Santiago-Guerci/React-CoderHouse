@@ -32,11 +32,6 @@ export const CartContextProvider = ({children}) => {
         return valorTotal;
     }
 
-    //Voy item por item aplicando que si el id es igual, le sumo cantidad
-    // const sumarCantidad = (id, cantidad) => {
-    //     cart.map((producto) => producto.id === id && (producto.cantidad += cantidad));
-    // }
-
     const getCantidad = () => {
         let sumaTotal = 0;
         cart.forEach(p => {sumaTotal += p.cantidad});

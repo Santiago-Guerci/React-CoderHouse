@@ -41,16 +41,15 @@ const Cart = () => {
                 addDoc(collection(firestoreDb, 'orders'), objOrder).then( ({id}) => {
                     batch.commit().then(() => {
                         setSuccess(true);
+                        alert(`La orden fue generada. ID de compra: ${id}`)
                         clear()
-                        console.log(`La orden fue generada. ID de compra: ${id}`)
                     })
                 }).catch(err => {
                     console.log(`Hubo un error al procesar su pedido`)
                 })
             } else {
-                console.log(`El producto ${outOfStock[0].name} no tiene stock suficiente.`);
                 outOfStock.forEach(prod => {
-                    console.log(`El producto ${prod.name} no tiene stock disponible`)
+                    alert(`El producto ${prod.name} no tiene stock suficiente`)
                     removeItem(prod.id)
                 })
             }
@@ -107,10 +106,8 @@ const Cart = () => {
                                 ))}
                             </ul>
                             
-                            {show ? <OrderDetail contact={contact}/> : <Form setContact={setContact} changeShow={changeShow}/>}
+                            {show ? <OrderDetail contact={contact} showForm={changeShow}/> : <Form setContact={setContact} changeShow={changeShow}/>}
 
-                            <h3>Total: ${getTotal()}</h3>
-                            <button onClick={() => changeShow()} className="btn btn-primary btn-lg m-2">Cambiar Show</button>
                             <button onClick={() => confirmOrder()} className="btn btn-primary btn-lg m-2"> Confirmar Orden </button>
                             <button onClick={clear} className='btn btn-danger btn-lg m-2'>Limpiar carrito</button>
                             <button onClick={reponerStock} className='btn btn-primary btn-lg m-2'>Reponer stock</button>

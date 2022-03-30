@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import ItemList from '../ItemList/ItemList';
 import { useParams } from 'react-router-dom';
-import { getDocs, collection, query, where } from 'firebase/firestore';
-import { firestoreDb } from '../../services/firebase/firebase';
+import { getProducts } from '../../services/firebase/firebase';
 
 
 const ItemListContainer = ({greeting}) => {
@@ -11,26 +10,13 @@ const ItemListContainer = ({greeting}) => {
 
     useEffect(() => {
 
-        const collectionRef = categoryId ?
-            query(collection(firestoreDb, 'productos'), where('category', '==', categoryId)) :
-            collection(firestoreDb, 'productos');
-
-        getDocs(collectionRef).then(querySnapshot => {
-            const productos = querySnapshot.docs.map(doc => {
-                return { id: doc.id, ...doc.data()}
-            })
-            setProducts(productos);
+        getProducts(categoryId).then(res => {
+            setProducts(res)
+        }).catch((err) => {
+            alert('Error al obtener los productos', err)
         })
 
     }, [categoryId])
-    
-    // CON ASYNCMOCK
-    // useEffect(() => {
-    //     getProducts(categoryId).then(productos => {
-    //         // console.log(productos)
-    //         setProducts(productos)
-    //     })
-    // }, [categoryId]) //lo que está dentro del corchete es lo que el useEffect está "mirando" a ver si cambia para volver a ejecutarse
 
     return (
         <>

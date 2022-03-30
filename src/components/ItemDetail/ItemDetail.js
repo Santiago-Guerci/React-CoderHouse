@@ -3,6 +3,8 @@ import CartContext from '../../context/CartContext';
 import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom'
 
+// Cambiar initial para mostrar la cantidad actual
+
 const ItemDetail = ({id, img, name, detail, price, stock}) => {
     const [cantidad, setCantidad] = useState(0);
     const { addItem } = useContext(CartContext);
