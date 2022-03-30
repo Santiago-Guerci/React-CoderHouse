@@ -4,7 +4,7 @@ import { getDocs, collection, query, where, getDoc, doc } from 'firebase/firesto
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDWk4hVsjC5K9hZMwZyShBCjzUYWxKyrW0",
+  apiKey: process.env.REACT_API_ApiKey,
   authDomain: "react-coderhouse-d00a0.firebaseapp.com",
   projectId: "react-coderhouse-d00a0",
   storageBucket: "react-coderhouse-d00a0.appspot.com",
