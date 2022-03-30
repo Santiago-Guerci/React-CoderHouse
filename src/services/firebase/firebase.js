@@ -12,10 +12,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_AppId
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore. Exporto para poder llevar los datos de mi DB a otros componentes
 export const firestoreDb = getFirestore(app)
 
 export const getProducts = (categoryId) => {

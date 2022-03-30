@@ -8,7 +8,6 @@ export const CartContextProvider = ({children}) => {
     const [cart, setCart] = useState([])
 
     const addItem = (producto, cantidad) => {
-        //prodToAdd es para poder poner la cantidad como una propiedad de mi objeto a vender (img, name, cantidad)
         const prodToAdd = {...producto, cantidad}
         isInCart(producto.id) ? updateItemInCart(prodToAdd) : addItemToCart(prodToAdd);
     }
