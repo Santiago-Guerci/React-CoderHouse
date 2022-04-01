@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# Proyecto Final ReactJS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es una simulación de un e-commerce, hecho con las herramientas aprendidas en el curso de ReactJS de CoderHouse.
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Client:** React, Bootstrap
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Server:** Firebase
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Variables de Entorno
 
-### `npm run build`
+Para ejecutar este programa, necesitará agregar las siguientes variables de entorno a su archivo .env con la información de su base de datos de Firebase.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`REACT_APP_ApiKey`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`REACT_APP_AuthDomain`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`REACT_APP_ProjectId`
 
-### `npm run eject`
+`REACT_APP_StorageBucket`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+`REACT_APP_MessagingSenderId`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`REACT_APP_AppId`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Tipos de Componentes
 
-## Learn More
+Dentro de la base de datos de Firebase se utilizan dos tipos de componentes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Productos:** un array con todos los productos y sus propiedades. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Cada producto debe tener el siguiente formato:
+```javascript
+Objeto {
+    category: "categoría del producto",
+    detail: "Breve descripción del producto",
+    img: "link de la imagen",
+    name: "Nombre del producto",
+    price: "precio del producto",
+    stock: "stock del producto"
+}
+```
 
-### Code Splitting
+**Orders:** un array con todas las órdenes de compra generadas. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Cada orden debe tener el siguiente formato:
 
-### Analyzing the Bundle Size
+```javascript
+Orden {
+    buyer: {
+        email: "email del usuario",
+        name: "nombre del usuario",
+        phone: "teléfono del usuario",
+        surname: "apellido del usuario"
+        },
+    items: [
+        {
+            cantidad: "cantidad de unidades a comprar",
+            id: "id generado por firebase",
+            img: "link de imagen del producto",
+            name: "nombre del producto",
+            price: "precio del producto",
+            stock: "stock del producto"
+        }
+    ]
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+## Flujo de Trabajo
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Para el correcto uso y funcionamiento de la aplicación web se debe tener en cuenta cierta información.
 
-### Advanced Configuration
+#### Rutas
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+`path = '/'`  Lleva al home donde se muestran todos los productos. Renderiza el <ItemListContainer> el cual obtiene por prop *greeting* un string como msj de bienvenida.
 
-### Deployment
+`path = '/category/:categoryId'` Dependiendo del parámetro de la url, filtra los productos por su categoría y renderiza <ItemListContainer>.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+`path = '/detail/:productId'` Dependiendo del parámetro de la url, renderiza <ItemDetailContainer> y muestra el producto seleccionado.
 
-### `npm run build` fails to minify
+`path = '/cart'` Renderiza <Cart> donde se muestra el carrito de compras con los objetos incluidos.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### Procedimiento
+
+Desde el home o alguna categoría, se debe seleccionar un producto, elegir la cantidad deseada y agregar al carrito.
+Si se desea agregar más productos, debe clickear en alguna categoría o en el logo del NavBar, y repetir el procedimiento.
+
+Una vez en el carrito, podrá remover algún producto, vaciar el carrito, o proceder.
+Debe completar sus datos en el formulario, confirmarlos y luego confirmar la compra.
+
+Luego de generada la compra, se le otorgará un ID por su orden.
+## Ejecutar en local
+
+Clonar el proyecto
+
+```bash
+  git clone https://github.com/Santiago-Guerci/react-coderhouse
+```
+
+Ir al directorio del proyecto
+
+```bash
+  cd miapp
+```
+
+Instalar paquetes de node y React Router
+
+```bash
+  npm install
+  npm install react-router-dom
+```
+
+Iniciar el servidor
+
+```bash
+  npm start
+```
+
