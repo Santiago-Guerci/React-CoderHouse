@@ -1,0 +1,6 @@
+REACT_APP_ApiKey=AIzaSyDWk4hVsjC5K9hZMwZyShBCjzUYWxKyrW0
+REACT_APP_AuthDomain=react-coderhouse-d00a0.firebaseapp.com
+REACT_APP_ProjectId=react-coderhouse-d00a0
+REACT_APP_StorageBucket=react-coderhouse-d00a0.appspot.com
+REACT_APP_MessagingSenderId=742108375629
+REACT_APP_AppId=1:742108375629:web:07d499d95501bda3c50a04
